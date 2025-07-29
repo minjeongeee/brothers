@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR 모델 보기</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background: #f0f0f0;
+    }
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      background: #007aff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    a:hover {
+      background: #005fcc;
+    }
+  </style>
+</head>
+<body>
+  <h1>📦 AR 모델 보기</h1>
+  <p>아래 버튼을 누르면 AR 뷰어로실행/anim</p>
+
+  <!-- AR 보기 버튼 -->
+  <a id="arLink" href="#">AR로 보기</a>
+
+  <p style="margin-top: 20px; color: #666;">* iOS Safari 또는 Android Chrome에서 작동합니다.</p>
+
+  <script>
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const arLink = document.getElementById('arLink');
+
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+    const isAndroid = /Android/.test(userAgent);
+
+    if (isIOS) {
+      arLink.href = "OrbitBrother_250729.usdz";
+      arLink.setAttribute("rel", "ar");
+    } else if (isAndroid) {
+      const glbFile = location.origin + location.pathname.replace(/\/[^\/]*$/, '/OrbitFlower_250729.glb');
+      arLink.href =
+        `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(glbFile)}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(glbFile)};end;`;
+    } else {
+      arLink.href = "#";
+      arLink.textContent = "AR은 iOS 또는 Android 기기에서만 지원됩니다.";
+      arLink.style.background = "#aaa";
+    }
+  </script>
+</body>
+</html>
